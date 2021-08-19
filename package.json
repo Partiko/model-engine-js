@@ -1,0 +1,22 @@
+{
+  "name": "model-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "model-engine.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Partiko/model-engine-js.git"
+  },
+  "dependencies": {
+    "mongodb": "^3.0.7"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Partiko/model-engine-js/issues"
+  },
+  "homepage": "https://github.com/Partiko/model-engine-js#readme"
+}
