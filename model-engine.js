@@ -8,7 +8,7 @@ class ModelEngine {
     // dbPort -  待迁移的库
     constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
         this.module = module
-        this.table = tableMaster
+        this.table = tablePort
         this.collMaster = dbMaster.collection(tableMaster)
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
