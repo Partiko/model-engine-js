@@ -6,11 +6,11 @@ class ModelEngine {
     // table - 表名
     // dbMaster - 线上db连接
     // dbPort -  待迁移的库
-    constructor(module, table, dbMaster, dbPort, redisGetAsync) {
+    constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
         this.module = module
-        this.table = table
-        this.collMaster = dbMaster.collection(table)
-        this.collPort = dbPort.collection(table)
+        this.table = tableMaster
+        this.collMaster = dbMaster.collection(tableMaster)
+        this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
     }
 
