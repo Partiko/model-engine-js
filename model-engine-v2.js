@@ -6,13 +6,13 @@ class ModelEngineV2 {
     // table - 表名
     // dbMaster - 线上db连接
     // dbPort -  待迁移的库
-    constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlags) {
+    constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag) {
         this.module = module
         this.table = tablePort
         this.collMaster = dbMaster.collection(tableMaster)
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
-        this.rdFlags = rdFlags
+        this.rdFlag = rdFlag
     }
 
     find(query, options = {}) {
@@ -293,9 +293,9 @@ class ModelEngineV2 {
 
     // 读标志
     flagForRead() {
-        const rdKey = this.rdKey()
-        return this.rdFlags[rdKey] || null
+        return this.rdFlag || null
     }
+
     // 写标志
     async flagForWrite() {
         return await this.redisGetAsync(this.rwKey())
