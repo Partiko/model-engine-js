@@ -20,7 +20,7 @@ class ModelEngine {
         return coll.find(query, options)
     }
 
-    async findOne(query, options = null, callback = null) {
+    async findOne(query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
@@ -30,7 +30,7 @@ class ModelEngine {
         return coll.findOne(query, options, callback)
     }
 
-    async countDocuments(query, options = null, callback = null) {
+    async countDocuments(query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
@@ -40,7 +40,7 @@ class ModelEngine {
         return coll.countDocuments(query, options, callback)
     }
 
-    async aggregate(query, options = null, callback = null) {
+    async aggregate(query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
@@ -50,7 +50,7 @@ class ModelEngine {
         return coll.aggregate(query, options, callback)
     }
 
-    async insertOne(query, options = null, callback = null) {
+    async insertOne(query, options = null, callback = undefined) {
         if (!query["_id"]) {
             query["_id"] = ObjectId()
         }
@@ -69,14 +69,14 @@ class ModelEngine {
         return this._insertOne(this.collMaster, query, options, callback)
     }
 
-    async _insertOne(coll, query, options = null, callback = null) {
+    async _insertOne(coll, query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.insertOne(query, options, callback)
     }
 
-    async insertMany(query, options = null, callback = null) {
+    async insertMany(query, options = null, callback = undefined) {
         if (typeof query === "array") {
             query.forEach((o) => {
                 o["_id"] = ObjectId()
@@ -97,14 +97,14 @@ class ModelEngine {
         return this._insertMany(this.collMaster, query, options, callback)
     }
 
-    async _insertMany(coll, query, options = null, callback = null) {
+    async _insertMany(coll, query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.insertMany(query, options, callback)
     }
 
-    async deleteOne(query, options = null, callback = null) {
+    async deleteOne(query, options = null, callback = undefined) {
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
             const result = this._deleteOne(this.collMaster, query, options, callback)
@@ -120,14 +120,14 @@ class ModelEngine {
         return this._deleteOne(this.collMaster, query, options, callback)
     }
 
-    async _deleteOne(coll, query, options = null, callback = null) {
+    async _deleteOne(coll, query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.deleteOne(query, options, callback)
     }
 
-    async deleteMany(query, options = null, callback = null) {
+    async deleteMany(query, options = null, callback = undefined) {
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
             const result = this._deleteMany(this.collMaster, query, options, callback)
@@ -143,14 +143,14 @@ class ModelEngine {
         return this._deleteMany(this.collMaster, query, options, callback)
     }
 
-    async _deleteMany(coll, query, options = null, callback = null) {
+    async _deleteMany(coll, query, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.deleteMany(query, options, callback)
     }
 
-    async insert(document, options = null, callback = null) {
+    async insert(document, options = null, callback = undefined) {
         if (typeof document === "array") {
             document.forEach((o) => {
                 o["_id"] = ObjectId()
@@ -171,14 +171,14 @@ class ModelEngine {
         return this._insert(this.collMaster, document, options, callback)
     }
 
-    async _insert(coll, document, options = null, callback = null) {
+    async _insert(coll, document, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.insert(document, options, callback)
     }
 
-    async update(filter, document, options = null, callback = null) {
+    async update(filter, document, options = null, callback = undefined) {
         if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
             document['$setOnInsert']['_id'] = ObjectId()
         } else if (!document['$setOnInsert']) {
@@ -199,14 +199,14 @@ class ModelEngine {
         return this._update(this.collMaster, filter, document, options, callback)
     }
 
-    async _update(coll, filter, document, options = null, callback = null) {
+    async _update(coll, filter, document, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.update(filter, document, options, callback)
     }
 
-    async updateOne(filter, document, options = null, callback = null) {
+    async updateOne(filter, document, options = null, callback = undefined) {
         if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
             document['$setOnInsert']['_id'] = ObjectId()
         } else if (!document['$setOnInsert']) {
@@ -227,14 +227,14 @@ class ModelEngine {
         return this._updateOne(this.collMaster, filter, document, options, callback)
     }
 
-    async _updateOne(coll, filter, document, options = null, callback = null) {
+    async _updateOne(coll, filter, document, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.updateOne(filter, document, options, callback)
     }
 
-    async updateMany(filter, document, options = null, callback = null) {
+    async updateMany(filter, document, options = null, callback = undefined) {
         if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
             document['$setOnInsert']['_id'] = ObjectId()
         } else if (!document['$setOnInsert']) {
@@ -255,14 +255,14 @@ class ModelEngine {
         return this._updateMany(this.collMaster, filter, document, options, callback)
     }
 
-    async _updateMany(coll, filter, document, options = null, callback = null) {
+    async _updateMany(coll, filter, document, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
         return coll.updateMany(filter, document, options, callback)
     }
 
-    async findOneAndUpdate(filter, document, options = null, callback = null) {
+    async findOneAndUpdate(filter, document, options = null, callback = undefined) {
         if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
             document['$setOnInsert']['_id'] = ObjectId()
         } else if (!document['$setOnInsert']) {
@@ -283,7 +283,7 @@ class ModelEngine {
         return this._findOneAndUpdate(this.collMaster, filter, document, options, callback)
     }
 
-    async _findOneAndUpdate(coll, filter, document, options = null, callback = null) {
+    async _findOneAndUpdate(coll, filter, document, options = null, callback = undefined) {
         if (typeof options === 'function') (callback = options), (options = {});
         options = options || {};
 
