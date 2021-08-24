@@ -179,10 +179,12 @@ class ModelEngine {
     }
 
     async update(filter, document, options = null, callback = undefined) {
-        if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
-            document['$setOnInsert']['_id'] = ObjectId()
-        } else if (!document['$setOnInsert']) {
-            document['$setOnInsert'] = { _id: ObjectId() }
+        if (!filter['_id']) {
+            if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
+                document['$setOnInsert']['_id'] = ObjectId()
+            } else if (!document['$setOnInsert']) {
+                document['$setOnInsert'] = { _id: ObjectId() }
+            }
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
@@ -207,10 +209,12 @@ class ModelEngine {
     }
 
     async updateOne(filter, document, options = null, callback = undefined) {
-        if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
-            document['$setOnInsert']['_id'] = ObjectId()
-        } else if (!document['$setOnInsert']) {
-            document['$setOnInsert'] = { _id: ObjectId() }
+        if (!filter['_id']) {
+            if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
+                document['$setOnInsert']['_id'] = ObjectId()
+            } else if (!document['$setOnInsert']) {
+                document['$setOnInsert'] = { _id: ObjectId() }
+            }
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
@@ -235,10 +239,12 @@ class ModelEngine {
     }
 
     async updateMany(filter, document, options = null, callback = undefined) {
-        if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
-            document['$setOnInsert']['_id'] = ObjectId()
-        } else if (!document['$setOnInsert']) {
-            document['$setOnInsert'] = { _id: ObjectId() }
+        if (!filter['_id']) {
+            if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
+                document['$setOnInsert']['_id'] = ObjectId()
+            } else if (!document['$setOnInsert']) {
+                document['$setOnInsert'] = { _id: ObjectId() }
+            }
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
@@ -263,10 +269,12 @@ class ModelEngine {
     }
 
     async findOneAndUpdate(filter, document, options = null, callback = undefined) {
-        if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
-            document['$setOnInsert']['_id'] = ObjectId()
-        } else if (!document['$setOnInsert']) {
-            document['$setOnInsert'] = { _id: ObjectId() }
+        if (!filter['_id']) {
+            if (document['$setOnInsert'] && !document['$setOnInsert']['_id']) {
+                document['$setOnInsert']['_id'] = ObjectId()
+            } else if (!document['$setOnInsert']) {
+                document['$setOnInsert'] = { _id: ObjectId() }
+            }
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
