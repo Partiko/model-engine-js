@@ -342,12 +342,12 @@ class ModelEngineV2 {
     }
 }
 
-async function getCollection(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
+async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
     const rdFlag = await redisGetAsync(`switch:${module}:rd:${tablePort}}`)
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
 module.exports = {
     ModelEngineV2,
-    getCollection,
+    getCollectionAsync,
 }
