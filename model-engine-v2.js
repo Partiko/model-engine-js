@@ -347,7 +347,18 @@ async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPo
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
+async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, redisGetAsync) {
+  const dbPort = clientPort.db(module)
+  return await Promise.all(tables.map(async(v) => {
+    const tablePort = v.length == 1 ? v[0] : v[1]
+    const key = `switch:${module}:rd:${tablePort}}`
+    const rdFlag = await redisGetAsync(key)
+    return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
+  }))
+}
+
 module.exports = {
     ModelEngineV2,
     getCollectionAsync,
+    getMultiCollectionsAsync,
 }
