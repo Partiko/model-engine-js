@@ -57,17 +57,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._insertOne(this.collMaster, query, options, callback)
-            this._insertOne(this.collPort, query, options, callback)
+            const result = await this._insertOne(this.collMaster, query, options, callback)
+            await this._insertOne(this.collPort, query, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._insertOne(this.collPort, query, options, callback)
+            return await this._insertOne(this.collPort, query, options, callback)
         }
 
-        return this._insertOne(this.collMaster, query, options, callback)
+        return await this._insertOne(this.collMaster, query, options, callback)
     }
 
     async _insertOne(coll, query, options = null, callback = undefined) {
@@ -85,17 +85,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._insertMany(this.collMaster, query, options, callback)
-            this._insertMany(this.collPort, query, options, callback)
+            const result = await this._insertMany(this.collMaster, query, options, callback)
+            await this._insertMany(this.collPort, query, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._insertMany(this.collPort, query, options, callback)
+            return await this._insertMany(this.collPort, query, options, callback)
         }
 
-        return this._insertMany(this.collMaster, query, options, callback)
+        return await this._insertMany(this.collMaster, query, options, callback)
     }
 
     async _insertMany(coll, query, options = null, callback = undefined) {
@@ -108,17 +108,17 @@ class ModelEngineV2 {
     async deleteOne(query, options = null, callback = undefined) {
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._deleteOne(this.collMaster, query, options, callback)
-            this._deleteOne(this.collPort, query, options, callback)
+            const result = await this._deleteOne(this.collMaster, query, options, callback)
+            await this._deleteOne(this.collPort, query, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._deleteOne(this.collPort, query, options, callback)
+            return await this._deleteOne(this.collPort, query, options, callback)
         }
 
-        return this._deleteOne(this.collMaster, query, options, callback)
+        return await this._deleteOne(this.collMaster, query, options, callback)
     }
 
     async _deleteOne(coll, query, options = null, callback = undefined) {
@@ -131,17 +131,17 @@ class ModelEngineV2 {
     async deleteMany(query, options = null, callback = undefined) {
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._deleteMany(this.collMaster, query, options, callback)
-            this._deleteMany(this.collPort, query, options, callback)
+            const result = await this._deleteMany(this.collMaster, query, options, callback)
+            await this._deleteMany(this.collPort, query, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._deleteMany(this.collPort, query, options, callback)
+            return await this._deleteMany(this.collPort, query, options, callback)
         }
 
-        return this._deleteMany(this.collMaster, query, options, callback)
+        return await this._deleteMany(this.collMaster, query, options, callback)
     }
 
     async _deleteMany(coll, query, options = null, callback = undefined) {
@@ -160,16 +160,16 @@ class ModelEngineV2 {
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
             const result = await this._insert(this.collMaster, document, options, callback)
-            this._insert(this.collPort, document, options, callback)
+            await this._insert(this.collPort, document, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._insert(this.collPort, document, options, callback)
+            return await this._insert(this.collPort, document, options, callback)
         }
 
-        return this._insert(this.collMaster, document, options, callback)
+        return await this._insert(this.collMaster, document, options, callback)
     }
 
     async _insert(coll, document, options = null, callback = undefined) {
@@ -189,17 +189,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._update(this.collMaster, filter, document, options, callback)
-            this._update(this.collPort, filter, document, options, callback)
+            const result = await this._update(this.collMaster, filter, document, options, callback)
+            await this._update(this.collPort, filter, document, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._update(this.collPort, filter, document, options, callback)
+            return await this._update(this.collPort, filter, document, options, callback)
         }
 
-        return this._update(this.collMaster, filter, document, options, callback)
+        return await this._update(this.collMaster, filter, document, options, callback)
     }
 
     async _update(coll, filter, document, options = null, callback = undefined) {
@@ -219,17 +219,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._updateOne(this.collMaster, filter, document, options, callback)
-            this._updateOne(this.collPort, filter, document, options, callback)
+            const result = await this._updateOne(this.collMaster, filter, document, options, callback)
+            await this._updateOne(this.collPort, filter, document, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._updateOne(this.collPort, filter, document, options, callback)
+            return await this._updateOne(this.collPort, filter, document, options, callback)
         }
 
-        return this._updateOne(this.collMaster, filter, document, options, callback)
+        return await this._updateOne(this.collMaster, filter, document, options, callback)
     }
 
     async _updateOne(coll, filter, document, options = null, callback = undefined) {
@@ -249,17 +249,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._updateMany(this.collMaster, filter, document, options, callback)
-            this._updateMany(this.collPort, filter, document, options, callback)
+            const result = await this._updateMany(this.collMaster, filter, document, options, callback)
+            await this._updateMany(this.collPort, filter, document, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._updateMany(this.collPort, filter, document, options, callback)
+            return await this._updateMany(this.collPort, filter, document, options, callback)
         }
 
-        return this._updateMany(this.collMaster, filter, document, options, callback)
+        return await this._updateMany(this.collMaster, filter, document, options, callback)
     }
 
     async _updateMany(coll, filter, document, options = null, callback = undefined) {
@@ -279,17 +279,17 @@ class ModelEngineV2 {
         }
         const flag = await this.flagForWrite()
         if (this.isDual(flag)) {
-            const result = this._findOneAndUpdate(this.collMaster, filter, document, options, callback)
-            this._findOneAndUpdate(this.collPort, filter, document, options, callback)
+            const result = await this._findOneAndUpdate(this.collMaster, filter, document, options, callback)
+            await this._findOneAndUpdate(this.collPort, filter, document, options, callback)
 
             return result
         }
 
         if (this.isPort(flag)) {
-            return this._findOneAndUpdate(this.collPort, filter, document, options, callback)
+            return await this._findOneAndUpdate(this.collPort, filter, document, options, callback)
         }
 
-        return this._findOneAndUpdate(this.collMaster, filter, document, options, callback)
+        return await this._findOneAndUpdate(this.collMaster, filter, document, options, callback)
     }
 
     async _findOneAndUpdate(coll, filter, document, options = null, callback = undefined) {
