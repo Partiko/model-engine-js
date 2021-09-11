@@ -1,6 +1,6 @@
 {
   "name": "model-engine",
-  "version": "0.0.14",
+  "version": "0.0.16",
   "description": "",
   "main": "model-engine.js",
   "scripts": {
