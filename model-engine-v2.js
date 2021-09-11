@@ -301,21 +301,21 @@ class ModelEngineV2 {
 
     // 读标志
     flagForRead() {
-        return this.rdFlag || null
+        return 'gcp'
     }
 
     // 写标志
     async flagForWrite() {
-        return await this.redisGetAsync(this.rwKey())
+        return 'gcp'
     }
 
     // 是否双写
     isDual(flag) {
-        return flag == 'dual'
+        return false
     }
     // 是否写新库
     isPort(flag) {
-        return flag == 'gcp'
+        return true
     }
 
     // 读key
@@ -343,7 +343,7 @@ class ModelEngineV2 {
 }
 
 async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
-    const rdFlag = await redisGetAsync(`switch:${module}:rd:${tablePort}}`)
+    const rdFlag = 'gcp'
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
@@ -351,8 +351,7 @@ async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, re
   const dbPort = clientPort.db(module)
   return await Promise.all(tables.map(async(v) => {
     const tablePort = v.length == 1 ? v[0] : v[1]
-    const key = `switch:${module}:rd:${tablePort}`
-    const rdFlag = await redisGetAsync(key)
+    const rdFlag = 'gcp'
     return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
   }))
 }

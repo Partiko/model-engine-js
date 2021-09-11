@@ -299,17 +299,17 @@ class ModelEngine {
     }
 
     // 读标志
-    async flagForRead() { return await this.redisGetAsync(this.rdKey()) }
+    async flagForRead() { return 'gcp' }
     // 写标志
-    async flagForWrite() { return await this.redisGetAsync(this.rwKey()) }
+    async flagForWrite() { return 'gcp' }
 
     // 是否双写
     isDual(flag) {
-        return flag == 'dual'
+        return false
     }
     // 是否写新库
     isPort(flag) {
-        return flag == 'gcp'
+        return true
     }
 
     // 读key
