@@ -9,7 +9,7 @@ class ModelEngineV2 {
     constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag) {
         this.module = module
         this.table = tablePort
-        // this.collMaster = dbMaster.collection(tableMaster)
+        this.collMaster = dbMaster.collection(tableMaster)
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
         this.rdFlag = rdFlag
@@ -301,21 +301,21 @@ class ModelEngineV2 {
 
     // 读标志
     flagForRead() {
-        return 'gcp'
+        return this.rdFlag || null
     }
 
     // 写标志
     async flagForWrite() {
-        return 'gcp'
+        return await this.redisGetAsync(this.rwKey())
     }
 
     // 是否双写
     isDual(flag) {
-        return false
+        return flag == 'dual'
     }
     // 是否写新库
     isPort(flag) {
-        return true
+        return flag == 'new_gcp'
     }
 
     // 读key
@@ -330,9 +330,9 @@ class ModelEngineV2 {
 
         const obj = {
             'key_read': this.rdKey(),
-            'flag_read': this.isPort(flagRead) ? 'atlas' : 'gcp',
+            'flag_read': this.isPort(flagRead) ? 'atlas' : 'new_gcp',
             'key_write': this.rwKey(),
-            'flag_write': this.isDual(flagWrite) ? 'dual' : this.isPort(flagWrite) ? 'gcp' : 'atlas',
+            'flag_write': this.isDual(flagWrite) ? 'dual' : this.isPort(flagWrite) ? 'new_gcp' : 'atlas',
             'table': this.table,
             'module': this.module,
         }
@@ -343,7 +343,7 @@ class ModelEngineV2 {
 }
 
 async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
-    const rdFlag = 'gcp'
+    const rdFlag = await redisGetAsync(`switch:${module}:rd:${tablePort}}`)
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
@@ -351,7 +351,8 @@ async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, re
   const dbPort = clientPort.db(module)
   return await Promise.all(tables.map(async(v) => {
     const tablePort = v.length == 1 ? v[0] : v[1]
-    const rdFlag = 'gcp'
+    const key = `switch:${module}:rd:${tablePort}`
+    const rdFlag = await redisGetAsync(key)
     return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
   }))
 }

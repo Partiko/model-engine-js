@@ -9,7 +9,7 @@ class ModelEngine {
     constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync) {
         this.module = module
         this.table = tablePort
-        // this.collMaster = dbMaster.collection(tableMaster)
+        this.collMaster = dbMaster.collection(tableMaster)
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
     }
@@ -299,17 +299,17 @@ class ModelEngine {
     }
 
     // 读标志
-    async flagForRead() { return 'gcp' }
+    async flagForRead() { return await this.redisGetAsync(this.rdKey()) }
     // 写标志
-    async flagForWrite() { return 'gcp' }
+    async flagForWrite() { return await this.redisGetAsync(this.rwKey()) }
 
     // 是否双写
     isDual(flag) {
-        return false
+        return flag == 'dual'
     }
     // 是否写新库
     isPort(flag) {
-        return true
+        return flag == 'new_gcp'
     }
 
     // 读key
@@ -324,9 +324,9 @@ class ModelEngine {
 
         const obj = {
             'key_read': this.rdKey(),
-            'flag_read': this.isPort(flagRead) ? 'atlas' : 'gcp',
+            'flag_read': this.isPort(flagRead) ? 'atlas' : 'new_gcp',
             'key_write': this.rwKey(),
-            'flag_write': this.isDual(flagWrite) ? 'dual' : this.isPort(flagWrite) ? 'gcp' : 'atlas',
+            'flag_write': this.isDual(flagWrite) ? 'dual' : this.isPort(flagWrite) ? 'new_gcp' : 'atlas',
             'table': this.table,
             'module': this.module,
         }
