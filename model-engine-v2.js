@@ -9,7 +9,9 @@ class ModelEngineV2 {
     constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag) {
         this.module = module
         this.table = tablePort
-        this.collMaster = dbMaster.collection(tableMaster)
+        if (redisGetAsync) {
+            this.collMaster = dbMaster.collection(tableMaster)
+        }
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
         this.rdFlag = rdFlag
