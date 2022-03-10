@@ -306,6 +306,9 @@ class ModelEngineV2 {
 
     // 写标志
     async flagForWrite() {
+        if (!this.redisGetAsync) {
+            return "new_gcp"
+        }
         return await this.redisGetAsync(this.rwKey())
     }
 
@@ -347,12 +350,12 @@ async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPo
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
-async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, redisGetAsync) {
+async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, redisGetAsync = null) {
   const dbPort = clientPort.db(module)
   return await Promise.all(tables.map(async(v) => {
     const tablePort = v.length == 1 ? v[0] : v[1]
     const key = `switch:${module}:rd:${tablePort}`
-    const rdFlag = await redisGetAsync(key)
+    const rdFlag = redisGetAsync ?  await redisGetAsync(key) : "new_gcp"
     return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
   }))
 }
