@@ -6,7 +6,7 @@ class ModelEngineV2 {
     // table - 表名
     // dbMaster - 线上db连接
     // dbPort -  待迁移的库
-    constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag) {
+    constructor(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag, rwFlag) {
         this.module = module
         this.table = tablePort
         if (redisGetAsync) {
@@ -15,6 +15,7 @@ class ModelEngineV2 {
         this.collPort = dbPort.collection(tablePort)
         this.redisGetAsync = redisGetAsync
         this.rdFlag = rdFlag
+        this.rwFlag = rwFlag
     }
 
     find(query, options = {}) {
@@ -308,6 +309,9 @@ class ModelEngineV2 {
 
     // 写标志
     async flagForWrite() {
+        if (this.rwFlag) {
+            return this.rwFlag
+        }
         if (!this.redisGetAsync) {
             return "new_gcp"
         }
@@ -352,13 +356,18 @@ async function getCollectionAsync(module, tableMaster, tablePort, dbMaster, dbPo
     return new ModelEngineV2(module, tableMaster, tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
 }
 
-async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, redisGetAsync = null) {
+async function getMultiCollectionsAsync(module, dbMaster, clientPort, tables, redisGetAsync = null, rdFlag = null, rwFlag = null) {
   const dbPort = clientPort.db(module)
   return await Promise.all(tables.map(async(v) => {
     const tablePort = v.length == 1 ? v[0] : v[1]
     const key = `switch:${module}:rd:${tablePort}`
-    const rdFlag = redisGetAsync ?  await redisGetAsync(key) : "new_gcp"
-    return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, rdFlag)
+    const mRdFlag = await (async ()=>{
+        if (rdFlag) {
+            return rdFlag
+        }
+       return redisGetAsync ?  await redisGetAsync(key) : "new_gcp"
+    })()
+    return new ModelEngineV2(module, v[0], tablePort, dbMaster, dbPort, redisGetAsync, mRdFlag, rwFlag)
   }))
 }
 
